@@ -1,2 +1,2 @@
 #!/bin/bash
-BESTSCHOOL=$(($WATER+$STIR))
+printf "%o\n" $(($(("%q\n" WATER))+$(("%q\n" STIR))))
