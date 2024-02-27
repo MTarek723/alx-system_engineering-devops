@@ -1,42 +1,24 @@
-# add stable version of nginx
-exec { 'add nginx stable repo':
-  command => 'sudo add-apt-repository ppa:nginx/stable',
-  path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+# Setup New Ubuntu server with nginx
+
+exec { 'update system':
+        command => '/usr/bin/apt-get update',
 }
 
-# update software packages list
-exec { 'update packages':
-  command => 'apt-get update',
-  path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-}
-
-# install nginx
 package { 'nginx':
-  ensure     => 'installed',
+	ensure => 'installed',
+	require => Exec['update system']
 }
 
-# allow HTTP
-exec { 'allow HTTP':
-  command => "ufw allow 'Nginx HTTP'",
-  path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-  onlyif  => '! dpkg -l nginx | egrep \'îi.*nginx\' > /dev/null 2>&1',
+file {'/var/www/html/index.html':
+	content => 'Hello World!'
 }
 
-# change folder rights
-exec { 'chmod www folder':
-  command => 'chmod -R 755 /var/www',
-  path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+exec {'redirect_me':
+	command => 'sed -i "24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default',
+	provider => 'shell'
 }
 
-# create index file
-file { '/var/www/html/index.html':
-  content => "Hello World!\n",
+service {'nginx':
+	ensure => running,
+	require => Package['nginx']
 }
-
-# create index file
-file { '/var/www/html/404.html':
-  content => "Ceci n'est pas une page\n",
-}
-
-# add redirection and error page
-
