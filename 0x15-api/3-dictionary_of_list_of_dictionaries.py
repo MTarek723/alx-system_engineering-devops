@@ -9,7 +9,7 @@ if __name__ == "__main__":
     url = "https://jsonplaceholder.typicode.com/"
     users = requests.get(url + "users/").json()
 
-    with open("all.json", "w") as jsonfile:
+    with open("todo_all_employees.json", "w") as jsonfile:
         for user in users:
             todos = requests.get(
                 url + "todos", params={"userId": user["id"]}).json()
