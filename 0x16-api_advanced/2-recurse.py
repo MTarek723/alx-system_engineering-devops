@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Contains recurse function"""
+"""Function to query a list of all hot posts on a given Reddit subreddit."""
 import requests
 
 
@@ -7,8 +7,7 @@ def recurse(subreddit, hot_list=[], after="", count=0):
     """Returns a list of titles of all hot posts on a given subreddit."""
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
     headers = {
-        "User-Agent": "apiadvanced:project:\
-v1.0.0"
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/Tefa_23)"
     }
     params = {
         "after": after,
@@ -29,4 +28,3 @@ v1.0.0"
     if after is not None:
         return recurse(subreddit, hot_list, after, count)
     return hot_list
-
