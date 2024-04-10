@@ -17,7 +17,7 @@ def top_ten(subreddit):
     auth = requests.auth.HTTPBasicAuth(id, passw)
     response = requests.get(url, headers=headers, params=params, auth=auth,
                             allow_redirects=False)
-    if response.status_code == 404:
+    if response.status_code != 200:
         print("None")
         return
     results = response.json().get("data")
