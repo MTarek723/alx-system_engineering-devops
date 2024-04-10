@@ -15,7 +15,7 @@ def top_ten(subreddit):
     id = 'Iveor9egCPolZahGK0MPpQ'
     passw = 'vgxoTcT2eVMFL7THy77MW786eGYAYQ'
     auth = requests.auth.HTTPBasicAuth(id, passw)
-    response = requests.get(url, headers=headers, params=params,auth=auth,
+    response = requests.get(url, headers=headers, params=params, auth=auth,
                             allow_redirects=False)
     if response.status_code == 404:
         print("None")
